@@ -1,0 +1,241 @@
+{% extends 'market/base.html' %}
+{% block content %}
+    <div>
+        <h1 style="margin:3%;text-align:center;">Time Series (Forex)</h1>
+        <div style="margin:3%;">
+            <label for="from_symbol">From Symbol:</label>
+            <input style="margin:0 0 0 3%;" type="text" name="from_symbol" id="from_symbol" placeholder="Eg. USD" required><br>
+            <label for="to_symbol">To Symbol:</label>
+            <input style="margin:3% 0 3% 4.5%;" type="text" name="to_symbol" id="to_symbol" placeholder="Eg. INR" required><br>
+            <label for="time_series">Time Period:</label>
+            <select style="margin:0 0 0 3.5%;" name="time_series" id="time_series" onchange="toggleDisplay('hide_on_select', this)">
+                <option value="intraday">Intraday</option>
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+            </select><br>
+
+            <div id="hide_on_select">
+                <label for="interval">Interval</label>
+                <select style="margin:3% 0 0 6.5%;" name="interval" id="interval">
+                    <option value="1min">1min</option>
+                    <option value="5min">5min</option>
+                    <option value="15min">15min</option>
+                    <option value="30min">30min</option>
+                    <option value="60min">60min</option>
+                </select>
+            </div>
+
+            <button style="margin:3% 0 0 9%;" class="btn btn-primary" id="submit-btn" type="submit">Submit</button>
+
+        </div>
+
+        <div id="graphArea" style="margin:3%;">
+        </div>
+
+    </div>
+
+    <script>
+        //console.log(luxon.DateTime.fromFormat('2021-12-16', 'yyyy-MM-dd').valueOf());
+
+        function toggleDisplay(id, elementValue){
+            var x=document.getElementById(id);
+
+            if(elementValue.value != "intraday"){
+                x.style.display = "none";
+            }
+            else
+            {
+                x.style.display = "block";
+            }
+        }
+
+        // OHLC Candlestick Chart
+        $('#submit-btn').click(function() {
+            var from_symbol = $('#from_symbol').val();
+            var to_symbol = $('#to_symbol').val();
+            var time_series = $('#time_series').val();
+            var interval = $('#interval').val();
+
+            $.ajax({
+                  type: "POST",
+                  url: "/get_time_series_data/forex/",
+                  data: {
+                     'from_symbol':from_symbol,
+                     'to_symbol':to_symbol,
+                     'time_series':time_series,
+                     'interval':interval,
+                  },
+                  success: function (res, status) {
+                    var graphTitle = res['output']['Meta Data']['1. Information'];
+                    var time_series_data = [];
+
+                    if(time_series == "intraday"){
+                        if(interval == "1min"){
+                            for (let key in res['output']['Time Series FX (1min)']){
+                                var obj = {};
+
+                                obj['x'] = luxon.DateTime.fromSQL(String(key)).valueOf();
+                                obj['o'] = Number(res['output']['Time Series FX (1min)'][key]['1. open']);
+                                obj['h'] = Number(res['output']['Time Series FX (1min)'][key]['2. high']);
+                                obj['l'] = Number(res['output']['Time Series FX (1min)'][key]['3. low']);
+                                obj['c'] = Number(res['output']['Time Series FX (1min)'][key]['4. close']);
+                                time_series_data.push(obj);
+                            }
+                        }
+                        if(interval == "5min"){
+                            for (let key in res['output']['Time Series FX (5min)']){
+                                var obj = {};
+
+                                obj['x'] = luxon.DateTime.fromSQL(String(key)).valueOf();
+                                obj['o'] = Number(res['output']['Time Series FX (5min)'][key]['1. open']);
+                                obj['h'] = Number(res['output']['Time Series FX (5min)'][key]['2. high']);
+                                obj['l'] = Number(res['output']['Time Series FX (5min)'][key]['3. low']);
+                                obj['c'] = Number(res['output']['Time Series FX (5min)'][key]['4. close']);
+                                time_series_data.push(obj);
+                            }
+                        }
+                        if(interval == "15min"){
+                            for (let key in res['output']['Time Series FX (15min)']){
+                                var obj = {};
+
+                                obj['x'] = luxon.DateTime.fromSQL(String(key)).valueOf();
+                                obj['o'] = Number(res['output']['Time Series FX (15min)'][key]['1. open']);
+                                obj['h'] = Number(res['output']['Time Series FX (15min)'][key]['2. high']);
+                                obj['l'] = Number(res['output']['Time Series FX (15min)'][key]['3. low']);
+                                obj['c'] = Number(res['output']['Time Series FX (15min)'][key]['4. close']);
+                                time_series_data.push(obj);
+                            }
+                        }
+                        if(interval == "30min"){
+                            for (let key in res['output']['Time Series FX (30min)']){
+                                var obj = {};
+
+                                obj['x'] = luxon.DateTime.fromSQL(String(key)).valueOf();
+                                obj['o'] = Number(res['output']['Time Series FX (30min)'][key]['1. open']);
+                                obj['h'] = Number(res['output']['Time Series FX (30min)'][key]['2. high']);
+                                obj['l'] = Number(res['output']['Time Series FX (30min)'][key]['3. low']);
+                                obj['c'] = Number(res['output']['Time Series FX (30min)'][key]['4. close']);
+                                time_series_data.push(obj);
+                            }
+                        }
+                        if(interval == "60min"){
+                            for (let key in res['output']['Time Series FX (60min)']){
+                                var obj = {};
+
+                                obj['x'] = luxon.DateTime.fromSQL(String(key)).valueOf();
+                                obj['o'] = Number(res['output']['Time Series FX (60min)'][key]['1. open']);
+                                obj['h'] = Number(res['output']['Time Series FX (60min)'][key]['2. high']);
+                                obj['l'] = Number(res['output']['Time Series FX (60min)'][key]['3. low']);
+                                obj['c'] = Number(res['output']['Time Series FX (60min)'][key]['4. close']);
+                                time_series_data.push(obj);
+                            }
+                        }
+                    }
+
+                    if(time_series == "daily"){
+                        for (let key in res['output']['Time Series FX (Daily)']){
+                            var obj = {};
+
+                            obj['x'] = luxon.DateTime.fromFormat(String(key), 'yyyy-MM-dd').valueOf();
+                            obj['o'] = Number(res['output']['Time Series FX (Daily)'][key]['1. open']);
+                            obj['h'] = Number(res['output']['Time Series FX (Daily)'][key]['2. high']);
+                            obj['l'] = Number(res['output']['Time Series FX (Daily)'][key]['3. low']);
+                            obj['c'] = Number(res['output']['Time Series FX (Daily)'][key]['4. close']);
+                            time_series_data.push(obj);
+                            interval = '';
+                        }
+                    }
+
+                    if(time_series == "weekly"){
+                        for (let key in res['output']['Time Series FX (Weekly)']){
+                            var obj = {};
+
+                            obj['x'] = luxon.DateTime.fromFormat(String(key), 'yyyy-MM-dd').valueOf();
+                            obj['o'] = Number(res['output']['Time Series FX (Weekly)'][key]['1. open']);
+                            obj['h'] = Number(res['output']['Time Series FX (Weekly)'][key]['2. high']);
+                            obj['l'] = Number(res['output']['Time Series FX (Weekly)'][key]['3. low']);
+                            obj['c'] = Number(res['output']['Time Series FX (Weekly)'][key]['4. close']);
+                            time_series_data.push(obj);
+                            interval = '';
+                        }
+                    }
+
+                    if(time_series == "monthly"){
+                        for (let key in res['output']['Time Series FX (Monthly)']){
+                            var obj = {};
+
+                            obj['x'] = luxon.DateTime.fromFormat(String(key), 'yyyy-MM-dd').valueOf();
+                            obj['o'] = Number(res['output']['Time Series FX (Monthly)'][key]['1. open']);
+                            obj['h'] = Number(res['output']['Time Series FX (Monthly)'][key]['2. high']);
+                            obj['l'] = Number(res['output']['Time Series FX (Monthly)'][key]['3. low']);
+                            obj['c'] = Number(res['output']['Time Series FX (Monthly)'][key]['4. close']);
+                            time_series_data.push(obj);
+                            interval = '';
+                        }
+                    }
+
+                    //for(i in res['output']['Meta Data'])
+                    //document.write(res['output']['Time Series (Daily)']['2022-03-10']['5. volume']);
+
+                    time_series_data.reverse();
+
+                    //for(var i=0;i<time_series_data.length;i++)
+                    //console.log(luxon.DateTime.fromRFC2822('01 Apr 2017 00:00 Z').valueOf());
+
+                    $('#OHLCChart').remove(); // this is my <canvas> element
+                    $('#graphArea').append('<canvas id="OHLCChart"><canvas>');
+
+                    var ctx = document.getElementById('OHLCChart').getContext('2d');
+                    var OHLCChart = new Chart(ctx, {
+                        type: 'candlestick',
+
+                        data: {
+                            datasets: [{
+                                label:'Price',
+                                data: time_series_data,
+                            }]
+                        },
+
+                        options: {
+                            responsive: true,
+                            scales:{
+                                x:{
+                                    title:{
+                                        display:true,
+                                        text: 'Date-Time',
+                                        font:{
+                                            size:15
+                                        }
+                                    }
+                                },
+                                y:{
+                                    title:{
+                                        display:true,
+                                        text: 'Price',
+                                        font:{
+                                            size:15
+                                        }
+                                    }
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                },
+                                title: {
+                                    display: true,
+                                    text: graphTitle,
+                                    font:{
+                                        size:15
+                                    }
+                                }
+                            }
+                        }
+                    });
+                  }
+            });
+        });
+
+    </script>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'users/base.html' %}
+{% block content %}
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 text-center mb-5">
+                    <h2 class="heading-section">Welcome !!!!</h2>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-7 col-lg-5">
+                    <div class="login-wrap p-4 p-md-5">
+                        <h3 class="mb-4">Sign In</h3>
+                        <form action="{% url 'login' %}" class="signup-form" method="POST">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="username" id="username" placeholder="Username" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
+                            </div>
+
+                            <div class="form-group d-flex justify-content-end mt-5">
+                                <button type="submit" class="btn btn-primary submit">Sign In</button>
+                            </div>
+
+                        </form>
+
+
+                        <p class="text-center"><a href="{% url 'password_reset' %}">Forgot Password?</a></p>
+                        </p>
+
+                        <p class="text-center">Need an account?
+                            <a href="{% url 'register' %}">Sign Up</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

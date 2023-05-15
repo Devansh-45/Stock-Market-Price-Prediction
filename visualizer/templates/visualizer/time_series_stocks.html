@@ -1,0 +1,309 @@
+{% extends 'market/base.html' %}
+{% block content %}
+    <div>
+        <h1 style="margin:3%;text-align:center;">Time Series</h1>
+        <div style="margin:3%;">
+            <select style="margin:0 3% 0 0;" name="time_series" id="time_series" onchange="toggleDisplay('hide_on_select', this)">
+                <option value="intraday">Intraday</option>
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+            </select>
+
+            <div style="display:inline;" id="hide_on_select">
+                <label for="interval">Interval:</label>
+                <select style="margin:0 3% 0 3%;" name="interval" id="interval">
+                    <option value="1min">1min</option>
+                    <option value="5min">5min</option>
+                    <option value="15min">15min</option>
+                    <option value="30min">30min</option>
+                    <option value="60min">60min</option>
+                </select>
+            </div>
+
+            <button class="btn btn-primary" id="submit-btn" name="submit-btn" type="submit">Submit</button>
+
+        </div>
+
+        <div id="graphArea" style="margin:3%;">
+        </div>
+
+    </div>
+
+    <script>
+
+        function toggleDisplay(id, elementValue){
+            var x=document.getElementById(id);
+
+            if(elementValue.value != "intraday"){
+                x.style.display = "none";
+            }
+            else
+            {
+                x.style.display = "inline";
+            }
+        }
+
+
+        // volume chart
+        $('#submit-btn').click(function() {
+            var time_series = $('#time_series').val();
+            var interval = $('#interval').val();
+
+            $.ajax({
+                  type: "POST",
+                  url: "/get_time_series_data/stock/",
+                  data: {
+                     'symbol': '{{symbol}}',
+                     'time_series':time_series,
+                     'interval':interval,
+                  },
+                  success: function (res, status) {
+                    var graphTitle = 'Volume';
+
+                    // volume chart
+                    var time_series_volume = [];
+                    var dates = [];
+
+                    // candlestick
+                    time_series_data = [];
+
+                    if(time_series == "intraday"){
+                        if(interval == "1min"){
+                            for (let key in res['output']['Time Series (1min)']){
+
+                                // volume chart
+                                time_series_volume.push(Number(res['output']['Time Series (1min)'][key]['5. volume']));
+                                dates.push(String(key));
+
+                                //candlestick chart
+                                var obj = {};
+
+                                obj['x'] = luxon.DateTime.fromSQL(String(key)).valueOf();
+                                obj['o'] = Number(res['output']['Time Series (1min)'][key]['1. open']);
+                                obj['h'] = Number(res['output']['Time Series (1min)'][key]['2. high']);
+                                obj['l'] = Number(res['output']['Time Series (1min)'][key]['3. low']);
+                                obj['c'] = Number(res['output']['Time Series (1min)'][key]['4. close']);
+                                time_series_data.push(obj);
+                            }
+                        }
+                        if(interval == "5min"){
+                            for (let key in res['output']['Time Series (5min)']){
+
+                                // volume chart
+                                time_series_volume.push(Number(res['output']['Time Series (5min)'][key]['5. volume']));
+                                dates.push(String(key));
+
+                                //candlestick chart
+                                var obj = {};
+
+                                obj['x'] = luxon.DateTime.fromSQL(String(key)).valueOf();
+                                obj['o'] = Number(res['output']['Time Series (5min)'][key]['1. open']);
+                                obj['h'] = Number(res['output']['Time Series (5min)'][key]['2. high']);
+                                obj['l'] = Number(res['output']['Time Series (5min)'][key]['3. low']);
+                                obj['c'] = Number(res['output']['Time Series (5min)'][key]['4. close']);
+                                time_series_data.push(obj);
+                            }
+                        }
+                        if(interval == "15min"){
+                            for (let key in res['output']['Time Series (15min)']){
+
+                                // volume chart
+                                time_series_volume.push(Number(res['output']['Time Series (15min)'][key]['5. volume']));
+                                dates.push(String(key));
+
+                                //candlestick chart
+                                var obj = {};
+
+                                obj['x'] = luxon.DateTime.fromSQL(String(key)).valueOf();
+                                obj['o'] = Number(res['output']['Time Series (15min)'][key]['1. open']);
+                                obj['h'] = Number(res['output']['Time Series (15min)'][key]['2. high']);
+                                obj['l'] = Number(res['output']['Time Series (15min)'][key]['3. low']);
+                                obj['c'] = Number(res['output']['Time Series (15min)'][key]['4. close']);
+                                time_series_data.push(obj);
+                            }
+                        }
+                        if(interval == "30min"){
+                            for (let key in res['output']['Time Series (30min)']){
+
+                                // volume chart
+                                time_series_volume.push(Number(res['output']['Time Series (30min)'][key]['5. volume']));
+                                dates.push(String(key));
+
+                                //candlestick chart
+                                var obj = {};
+
+                                obj['x'] = luxon.DateTime.fromSQL(String(key)).valueOf();
+                                obj['o'] = Number(res['output']['Time Series (30min)'][key]['1. open']);
+                                obj['h'] = Number(res['output']['Time Series (30min)'][key]['2. high']);
+                                obj['l'] = Number(res['output']['Time Series (30min)'][key]['3. low']);
+                                obj['c'] = Number(res['output']['Time Series (30min)'][key]['4. close']);
+                                time_series_data.push(obj);
+                            }
+                        }
+                        if(interval == "60min"){
+                            for (let key in res['output']['Time Series (60min)']){
+
+                                // volume chart
+                                time_series_volume.push(Number(res['output']['Time Series (60min)'][key]['5. volume']));
+                                dates.push(String(key));
+
+                                //candlestick chart
+                                var obj = {};
+
+                                obj['x'] = luxon.DateTime.fromSQL(String(key)).valueOf();
+                                obj['o'] = Number(res['output']['Time Series (60min)'][key]['1. open']);
+                                obj['h'] = Number(res['output']['Time Series (60min)'][key]['2. high']);
+                                obj['l'] = Number(res['output']['Time Series (60min)'][key]['3. low']);
+                                obj['c'] = Number(res['output']['Time Series (60min)'][key]['4. close']);
+                                time_series_data.push(obj);
+                            }
+                        }
+                    }
+
+                    if(time_series == "daily"){
+                        for (let key in res['output']['Time Series (Daily)']){
+
+                            // volume chart
+                            time_series_volume.push(Number(res['output']['Time Series (Daily)'][key]['5. volume']));
+                            dates.push(String(key));
+                            interval = '';
+
+                            //candlestick chart
+                            var obj = {};
+
+                            obj['x'] = luxon.DateTime.fromFormat(String(key), 'yyyy-MM-dd').valueOf();
+                            obj['o'] = Number(res['output']['Time Series (Daily)'][key]['1. open']);
+                            obj['h'] = Number(res['output']['Time Series (Daily)'][key]['2. high']);
+                            obj['l'] = Number(res['output']['Time Series (Daily)'][key]['3. low']);
+                            obj['c'] = Number(res['output']['Time Series (Daily)'][key]['4. close']);
+                            time_series_data.push(obj);
+                            interval = '';
+                        }
+                    }
+
+                    if(time_series == "weekly"){
+                        for (let key in res['output']['Weekly Time Series']){
+
+                            // volume chart
+                            time_series_volume.push(Number(res['output']['Weekly Time Series'][key]['5. volume']));
+                            dates.push(String(key));
+                            interval = '';
+
+                            //candlestick chart
+                            var obj = {};
+
+                            obj['x'] = luxon.DateTime.fromFormat(String(key), 'yyyy-MM-dd').valueOf();
+                            obj['o'] = Number(res['output']['Weekly Time Series'][key]['1. open']);
+                            obj['h'] = Number(res['output']['Weekly Time Series'][key]['2. high']);
+                            obj['l'] = Number(res['output']['Weekly Time Series'][key]['3. low']);
+                            obj['c'] = Number(res['output']['Weekly Time Series'][key]['4. close']);
+                            time_series_data.push(obj);
+                            interval = '';
+                        }
+                    }
+
+                    if(time_series == "monthly"){
+                        for (let key in res['output']['Monthly Time Series']){
+
+                            // volume chart
+                            time_series_volume.push(Number(res['output']['Monthly Time Series'][key]['5. volume']));
+                            dates.push(String(key));
+                            interval = '';
+
+                            // candlestick chart
+                            var obj = {};
+
+                            obj['x'] = luxon.DateTime.fromFormat(String(key), 'yyyy-MM-dd').valueOf();
+                            obj['o'] = Number(res['output']['Monthly Time Series'][key]['1. open']);
+                            obj['h'] = Number(res['output']['Monthly Time Series'][key]['2. high']);
+                            obj['l'] = Number(res['output']['Monthly Time Series'][key]['3. low']);
+                            obj['c'] = Number(res['output']['Monthly Time Series'][key]['4. close']);
+                            time_series_data.push(obj);
+                            interval = '';
+                        }
+                    }
+
+                    //for(i in res['output']['Meta Data'])
+                    //document.write(res['output']['Time Series (Daily)']['2022-03-10']['5. volume']);
+
+                    // volume chart
+                    time_series_volume.reverse();
+                    dates.reverse();
+
+                    //document.write(dates);
+
+                    $('#volumeChart').remove(); // this is my <canvas> element
+                    $('#graphArea').append('<canvas id="volumeChart"><canvas>');
+
+                    var ctx = document.getElementById('volumeChart').getContext('2d');
+                    var volumeChart = new Chart(ctx, {
+                        type: 'bar',
+
+                        data: {
+                            labels: dates,
+                            datasets: [{
+                                label: 'Volume',
+                                data: time_series_volume,
+                                backgroundColor: [
+                                    'green',
+                                ],
+                                borderColor: [
+                                    'green',
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+
+                        options: {
+                            responsive: true,
+                            scales:{
+                                x:{
+                                    title:{
+                                        display:true,
+                                        text: 'Date-Time',
+                                        font:{
+                                            size:15
+                                        }
+                                    }
+                                },
+                                y:{
+                                    title:{
+                                        display:true,
+                                        text: 'Volume',
+                                        font:{
+                                            size:15
+                                        }
+                                    }
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                },
+                                title: {
+                                    display: true,
+                                    text: graphTitle,
+                                    font:{
+                                        size:15
+                                    }
+                                },
+                                subtitle: {
+                                    display: true,
+                                    text:"(Time-Series: " + time_series + ' ' + interval + ")"
+                                }
+                            }
+                        }
+                    });
+
+                    // candlestick chart
+                    time_series_data.reverse();
+
+
+
+                  }
+            });
+        });
+
+    </script>
+{% endblock %}

@@ -1,0 +1,125 @@
+{% extends 'market/base.html' %}
+{% block content %}
+    <h1 style="margin:3%;text-align:center;">Income Statement</h1>
+    {% if output %}
+        <div style="margin:3%;">
+            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" role="tab" type="button" name="annual_reports" id="annual_reports" onclick="toggleDisplay('annual');">Annual Reports</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" role="tab" type="button" name="quarterly_reports" id="quarterly_reports" onclick="toggleDisplay('quarterly');">Quarterly Reports</button>
+                </li>
+            </ul>
+        </div>
+        <div id="annual">
+            <h2 style="margin:3%;">Annual Reports:</h2>
+            {% for v in output.annualReports %}
+            <div style=" background: rgb(56,9,82);
+            background: linear-gradient(90deg, rgba(56,9,82,1) 0%, rgba(67,63,214,1) 100%);
+            width: auto;
+            height: auto;
+            margin: 3%;
+            padding: 2%;">
+                <u style="font-size: 20px; color: white;">fiscalDateEnding: {{v.fiscalDateEnding}}</u>
+                <p style="font-size: 20px; color: white;">reportedCurrency: {{v.reportedCurrency}}</p>
+                <p style="font-size: 20px; color: white;">grossProfit: {{v.grossProfit}}</p>
+                <p style="font-size: 20px; color: white;">totalRevenue: {{v.totalRevenue}}</p>
+                <p style="font-size: 20px; color: white;">costOfRevenue: {{v.costOfRevenue}}</p>
+                <p style="font-size: 20px; color: white;">costofGoodsAndServicesSold: {{v.costofGoodsAndServicesSold}}</p>
+                <p style="font-size: 20px; color: white;">operatingIncome: {{v.operatingIncome}}</p>
+                <p style="font-size: 20px; color: white;">sellingGeneralAndAdministrative: {{v.sellingGeneralAndAdministrative}}</p>
+                <p style="font-size: 20px; color: white;">researchAndDevelopment: {{v.researchAndDevelopment}}</p>
+                <p style="font-size: 20px; color: white;">operatingExpenses: {{v.operatingExpenses}}</p>
+                <p style="font-size: 20px; color: white;">investmentIncomeNet: {{v.investmentIncomeNet}}</p>
+                <p style="font-size: 20px; color: white;">netInterestIncome: {{v.netInterestIncome}}</p>
+                <p style="font-size: 20px; color: white;">interestIncome: {{v.interestIncome}}</p>
+                <p style="font-size: 20px; color: white;">interestExpense: {{v.interestExpense}}</p>
+                <p style="font-size: 20px; color: white;">nonInterestIncome: {{v.nonInterestIncome}}</p>
+                <p style="font-size: 20px; color: white;">otherNonOperatingIncome: {{v.otherNonOperatingIncome}}</p>
+                <p style="font-size: 20px; color: white;">depreciation: {{v.depreciation}}</p>
+                <p style="font-size: 20px; color: white;">depreciationAndAmortization: {{v.depreciationAndAmortization}}</p>
+                <p style="font-size: 20px; color: white;">incomeBeforeTax: {{v.incomeBeforeTax}}</p>
+                <p style="font-size: 20px; color: white;">incomeTaxExpense: {{v.incomeTaxExpense}}</p>
+                <p style="font-size: 20px; color: white;">interestAndDebtExpense: {{v.interestAndDebtExpense}}</p>
+                <p style="font-size: 20px; color: white;">netIncomeFromContinuingOperations: {{v.netIncomeFromContinuingOperations}}</p>
+                <p style="font-size: 20px; color: white;">comprehensiveIncomeNetOfTax: {{v.comprehensiveIncomeNetOfTax}}</p>
+                <p style="font-size: 20px; color: white;">ebit: {{v.ebit}}</p>
+                <p style="font-size: 20px; color: white;">ebitda: {{v.ebitda}}</p>
+                <p style="font-size: 20px; color: white;">netIncome: {{v.netIncome}}</p>
+            </div>
+            {% endfor %}<br><br>
+        </div>
+
+        <div id="quarterly" style="display:none;">
+            <h2 style="margin:3%;">Quarterly Reports:</h2>
+            {% for v in output.quarterlyReports %}
+            <div style=" background: rgb(56,9,82);
+            background: linear-gradient(90deg, rgba(56,9,82,1) 0%, rgba(67,63,214,1) 100%);
+            width: auto;
+            height: auto;
+            margin: 3%;
+            padding: 2%;">
+                <u style="font-size: 20px; color: white;">fiscalDateEnding: {{v.fiscalDateEnding}}</u>
+                <p style="font-size: 20px; color: white;">reportedCurrency: {{v.reportedCurrency}}</p>
+                <p style="font-size: 20px; color: white;">grossProfit: {{v.grossProfit}}</p>
+                <p style="font-size: 20px; color: white;">totalRevenue: {{v.totalRevenue}}</p>
+                <p style="font-size: 20px; color: white;">costOfRevenue: {{v.costOfRevenue}}</p>
+                <p style="font-size: 20px; color: white;">costofGoodsAndServicesSold: {{v.costofGoodsAndServicesSold}}</p>
+                <p style="font-size: 20px; color: white;">operatingIncome: {{v.operatingIncome}}</p>
+                <p style="font-size: 20px; color: white;">sellingGeneralAndAdministrative: {{v.sellingGeneralAndAdministrative}}</p>
+                <p style="font-size: 20px; color: white;">researchAndDevelopment: {{v.researchAndDevelopment}}</p>
+                <p style="font-size: 20px; color: white;">operatingExpenses: {{v.operatingExpenses}}</p>
+                <p style="font-size: 20px; color: white;">investmentIncomeNet: {{v.investmentIncomeNet}}</p>
+                <p style="font-size: 20px; color: white;">netInterestIncome: {{v.netInterestIncome}}</p>
+                <p style="font-size: 20px; color: white;">interestIncome: {{v.interestIncome}}</p>
+                <p style="font-size: 20px; color: white;">interestExpense: {{v.interestExpense}}</p>
+                <p style="font-size: 20px; color: white;">nonInterestIncome: {{v.nonInterestIncome}}</p>
+                <p style="font-size: 20px; color: white;">otherNonOperatingIncome: {{v.otherNonOperatingIncome}}</p>
+                <p style="font-size: 20px; color: white;">depreciation: {{v.depreciation}}</p>
+                <p style="font-size: 20px; color: white;">depreciationAndAmortization: {{v.depreciationAndAmortization}}</p>
+                <p style="font-size: 20px; color: white;">incomeBeforeTax: {{v.incomeBeforeTax}}</p>
+                <p style="font-size: 20px; color: white;">incomeTaxExpense: {{v.incomeTaxExpense}}</p>
+                <p style="font-size: 20px; color: white;">interestAndDebtExpense: {{v.interestAndDebtExpense}}</p>
+                <p style="font-size: 20px; color: white;">netIncomeFromContinuingOperations: {{v.netIncomeFromContinuingOperations}}</p>
+                <p style="font-size: 20px; color: white;">comprehensiveIncomeNetOfTax: {{v.comprehensiveIncomeNetOfTax}}</p>
+                <p style="font-size: 20px; color: white;">ebit: {{v.ebit}}</p>
+                <p style="font-size: 20px; color: white;">ebitda: {{v.ebitda}}</p>
+                <p style="font-size: 20px; color: white;">netIncome: {{v.netIncome}}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+    {% endif %}
+
+    <script>
+        function toggleDisplay(id){
+            var x=document.getElementById(id);
+
+            if(x.id == "annual"){
+                var y=document.getElementById('quarterly');
+                y.style.display = "none";
+                x.style.display = "block";
+
+                var btn1=document.getElementById('annual_reports');
+                var btn2=document.getElementById('quarterly_reports');
+
+                btn2.classList.remove('active');
+                btn1.classList.add('active');
+            }
+            else
+            {
+                var y=document.getElementById('annual');
+                y.style.display = "none";
+                x.style.display = "block";
+
+                var btn1=document.getElementById('annual_reports');
+                var btn2=document.getElementById('quarterly_reports');
+
+                btn1.classList.remove('active');
+                btn2.classList.add('active');
+            }
+        }
+    </script>
+
+{% endblock %}

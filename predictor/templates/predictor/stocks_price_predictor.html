@@ -1,0 +1,37 @@
+{% extends 'market/base.html' %}
+{% block content %}
+<div>
+    <h1 style="margin:3%;text-align:center;">Price Predictor</h1>
+    <div style="margin:3%;">
+        <form action="{% url 'stocks_price_predictor' symbol %}" method="POST">
+            {% csrf_token %}
+            <div>
+                <label for="model">Model:</label>
+                <select name="model" id="model">
+                    <option value="arima">LSTM</option>
+                    <option value="lstm">ARIMA</option>
+                    <option value="gru">GRU</option>
+                </select>
+
+                <button style="margin:0 0 0 3%;" class="btn btn-primary" type="submit" name="submit">Predict</button>
+            </div>
+
+        </form>
+
+        {% if ltp %}
+    
+        <div style=" background: rgb(56,9,82);
+        background: linear-gradient(90deg, rgba(56,9,82,1) 0%, rgba(67,63,214,1) 100%);
+        width: auto;
+        height: auto;
+        margin: 3%;
+        padding: 2%;">
+        <p style="font-size: 20px; color: white;">Predicted Price of {{symbol}} for next trading day: {{output}}</p>
+        <p style="font-size: 20px; color: white;">Latest Trading Price(LTP) of {{symbol}}: {{ltp}} on {{ltd}}</p>
+        
+    </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}

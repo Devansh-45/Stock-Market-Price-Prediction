@@ -1,0 +1,15 @@
+{% extends 'market/base.html' %}
+{% block content %}
+    {% if symbol_search %}
+        {% for v in symbol_search %}
+            {% if v.exchange == "NASDAQ" or v.exchange == "NYSE" %}
+                <a href="{% url 'stocks_details' v.exchange v.symbol %}">Symbol: {{v.symbol}}</a>
+                <p>Name: {{v.instrument_name}}</p>
+                <p>Currency: {{v.currency}}</p>
+                <p>Exchange: {{v.exchange}}</p>
+                <p>Country: {{v.country}}</p>
+                <p>Type: {{v.instrument_type}}</p><br>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endblock %}

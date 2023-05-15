@@ -1,0 +1,41 @@
+{% extends 'market/base.html' %}
+{% block content %}
+    <h1 style="margin:3%;text-align:center;">Market News</h1>
+    <form action="{% url 'market_news' %}" method="POST" style="margin:3%;">
+        {% csrf_token %}
+        <label for="news_category">News Category</label>
+        <select style="margin:0 0 0 2%;" class="btn btn-primary dropdown-toggle" name="news_category" id="news_category">
+            <option class="dropdown-item" value="general">Top News</option>
+            <option class="dropdown-item" value="forex">Forex</option>
+            <option class="dropdown-item" value="crypto">Crypto</option>
+            <option class="dropdown-item" value="merger">Merger</option>
+        </select>
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+
+    {% if output %}
+        {% for v in output %}
+        <a href="{{v.url}}">
+            <div style=" background: rgb(56,9,82);
+            background: linear-gradient(90deg, rgba(56,9,82,1) 0%, rgba(67,63,214,1) 100%);
+            width: auto;
+            height: auto;
+            margin: 3%;
+            padding: 2%;
+            display:flex;
+            flex-direction:row;">
+                <div style="flex-wrap:wrap;flex:70%;justify-content:space-around;">
+                    <p style="font-size: 15px; color: white;">{{v.datetime}}</p>
+                    <p style="font-size: 15px; color: white;">Category: {{v.category}}</p>
+                    <p style="font-size: 25px; color: white;text-align:justify;padding:0 2% 0 0;"><b>{{v.headline}}</b></p>
+                    <p style="font-size: 15px; color: white;">Source: {{v.source}}</p>
+                </div>
+
+                <div>
+                    <img src="{{v.image}}" height="200px" width="200px">
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'market/base.html' %}
+{% block content %}
+    <h1 style="margin:3%;text-align: center;">Peers</h1>
+    {% if output %}
+        {% for v in output %}
+        <div style=" background: rgb(56,9,82);
+            background: linear-gradient(90deg, rgba(56,9,82,1) 0%, rgba(67,63,214,1) 100%);
+            width: auto;
+            height: auto;
+            margin: 3%;
+            padding: 2%;">
+            <p style="font-size: 20px; color: white;">{{v}}</p>
+        </div>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

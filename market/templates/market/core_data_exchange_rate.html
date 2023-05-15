@@ -1,0 +1,21 @@
+{% extends 'market/base.html' %}
+{% block content %}
+    <h1 style="margin:2%;text-align:center;">Exchange Rate</h1><br>
+    <form action="/core_data/exchange_rate/" method="POST">
+        {% csrf_token %}
+        Symbol(from/to): <input type="text" name="symbol" id="symbol" required><br><br>
+        <button type="submit">Submit</button><br><br>
+    </form>
+    {% if output %}
+    <div style=" background: rgb(56,9,82);
+    background: linear-gradient(90deg, rgba(56,9,82,1) 0%, rgba(67,63,214,1) 100%);
+    width: auto;
+    height: auto;
+    margin: 3%;
+    padding: 2%;">
+        <p style="font-size: 20px; color: white;">Symbol: {{output.symbol}}</p>
+        <p style="font-size: 20px; color: white;">Rate: {{output.rate}}</p>
+        
+    </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'market/base.html' %}
+{% block content %}
+    <h1>Cash Flow</h1>
+    {% if output %}
+        <p>Symbol: {{output.symbol}}</p>
+        <div style="display:inline;">
+            <button name="annual_reports" id="annual_reports" onclick="toggleDisplay('annual');">Annual Reports</button>
+            <button name="quarterly_reports" id="quarterly_reports" onclick="toggleDisplay('quarterly');">Quarterly Reports</button><br><br>
+        </div>
+        <div id="annual">
+            <p>Annual Reports: </p>
+            {% for v in output.annualReports %}
+                <p>{{v}}</p>
+            {% endfor %}<br><br>
+        </div>
+
+        <div id="quarterly" style="display:none;">
+            <p>Quarterly Reports: </p>
+            {% for v in output.quarterlyReports %}
+                <p>{{v}}</p>
+            {% endfor %}
+        </div>
+
+    {% endif %}
+
+    <script>
+        function toggleDisplay(id){
+            var x=document.getElementById(id);
+
+            if(x.id == "annual"){
+                var y=document.getElementById('quarterly');
+                y.style.display = "none";
+                x.style.display = "block";
+            }
+            else
+            {
+                var y=document.getElementById('annual');
+                y.style.display = "none";
+                x.style.display = "block";
+            }
+        }
+    </script>
+
+{% endblock %}
