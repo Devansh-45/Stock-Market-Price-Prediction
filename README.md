@@ -32,12 +32,12 @@ The following libraries were used in this project:
 
 ## Usage
 1. Clone the repository:
-git clone [https://github.com/your-username/stock-market-prediction.git](https://github.com/your-username/stock-market-prediction.git)
-
+	git clone [Repository](https://github.com/Devansh-45/Stock-Market-Price-Prediction)
 
 2. Install the required dependencies:
-	pip install -r requirements.txt
-
+	```
+	pip3 install requirements.txt
+	```
 3. Prepare the dataset. Download the stock market dataset from Kaggle and place it in the project directory.
 
 4. Train the models:
